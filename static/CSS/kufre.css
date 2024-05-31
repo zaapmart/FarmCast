@@ -1,0 +1,78 @@
+.register-container {
+    background-color: azure;
+    border: solid;
+    border-color: darkcyan;
+    width: 50%;
+    padding: 20px; /* Added padding for spacing */
+}
+
+.register-button {
+    background-color: red;
+    border-radius: 5px; /* Corrected typo */
+    color: white; /* Added text color */
+    padding: 10px; /* Added padding for button size */
+    border: none;
+    cursor: pointer;
+}
+
+.input-box {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.logo {
+    height: 160px;
+}
+
+.input-box label {
+    margin-right: 20px; /* Reduced margin for label */
+    display: inline-block; /* Added to ensure label and input are displayed on the same line */
+    width: 100px; /* Fixed width for labels */
+}
+
+.input-box input {
+    width: calc(100% - 120px); /* Calculate width to leave space for label */
+    padding: 5px; /* Added padding for input fields */
+}
+.login-container {
+    background-color: azure;
+    border: solid;
+    border-color: darkcyan;
+    width: 50%;
+    padding: 20px;
+    margin: auto; /* Center the container */
+}
+
+.login-logo {
+    display: block; /* Ensure the logo is centered */
+    margin: 0 auto 20px; /* Center the logo */
+    height: 160px;
+}
+
+.login-input-box {
+    margin-bottom: 20px;
+}
+
+.login-input-box label {
+    margin-right: 20px;
+    display: inline-block;
+    width: 100px;
+}
+
+.login-input-box input {
+    width: calc(100% - 120px);
+    padding: 5px;
+}
+
+.login-button {
+    background-color: dodgerblue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: royalblue;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmCast Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/kufre.css') }}">
+    <!-- Link to your CSS file for styling -->
+</head>
+
+<body>
+    <div class="container register-container">
+        <img src="{{ url_for('static', filename='images/farmcast.png') }}" alt="FarmCast Logo" class="logo">
+        <h2>Register for FarmCast</h2>
+        <form id="registration-form" onsubmit="registerUser(event)">
+            <div class="form-group input-box">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group input-box">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group input-box">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group input-box">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <button type="submit" class="register-button">Register</button>
+            <p id="registration-message" style="display: none;">Registration successful! You can now <a
+                    href="{{ url_for('login') }}">login</a>.</p>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='JS/activities.js') }}"></script> <!-- Link to your JavaScript file -->
+</body>
+
+</html>

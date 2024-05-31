@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmCast Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/farmlogo.png') }}" alt="FarmCast Logo" class="logo">
+            <h3 class="header-title">FarmCast</h3>
+        </div>
+        <nav class="nav-menu">
+            <a href="{{ url_for('index') }}">Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Activities</button>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('add_activity') }}">Add New Activity</a>
+                    <a href="{{ url_for('view_activities') }}">View Activities</a>
+                </div>
+            </div>
+            <a href="#">Settings</a>
+            <a href="#">Logout</a>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="sidebar-left">
+            <div class="profile">
+                <h2>Profile</h2>
+                <div class="profile-details">
+                    <p><strong>Name:</strong> John Doe</p>
+                    <p><strong>Farms:</strong></p>
+                    <ul id="farm-list">
+                        <!-- Farms will be listed here -->
+                    </ul>
+                </div>
+                <button id="add-farm-button">Add Farm</button>
+            </div>
+
+            <!-- Add Farm Form -->
+            <div id="add-farm-form" style="display: none;">
+                <h2>Add New Farm</h2>
+                <form id="farm-details-form">
+                    <label for="farm-name">Farm Name:</label>
+                    <input type="text" id="farm-name" name="farm-name" required><br>
+                    <label for="farm-location">Farm Location (Coordinates):</label>
+                    <input type="text" id="farm-location" name="farm-location" required><br>
+                    <label for="crop-type">Crop Type:</label>
+                    <input type="text" id="crop-type" name="crop-type" required>
+                    <button type="submit" class="save-farm">Save Farm</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="activities">
+                <h2>Farm Activities</h2>
+                <ul id="activity-list">
+                    <!-- Activities will be listed here -->
+                </ul>
+            </div>
+
+            <div class="todo-list">
+                <h2>To-do List</h2>
+                <div class="sort-options">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by" onchange="sortTodoList()">
+                        <option value="undone">Undone</option>
+                        <option value="deadline">Deadline</option>
+                        <option value="date">Date</option>
+                    </select>
+                </div>
+                <ul id="todo-items">
+                    <!-- To-do items will be listed here -->
+                </ul>
+            </div>
+
+            <div class="crop-info">
+                <div class="crop-info-content">
+                    <h2>Crop Information</h2>
+                    <p><strong>Crop Name:</strong> Rice</p>
+                    <p><strong>Variety:</strong> Jasmine</p>
+                    <p><strong>Planting Season:</strong> May to June</p>
+                    <p><strong>Expected Harvest:</strong> September to October</p>
+                    <p><strong>Notes:</strong> Requires consistent watering and prefers a tropical climate.</p>
+                </div>
+            </div>
+        </div>
+        <div class="weather-summary">
+            <div class="weather-summary" id="today-weather">
+                <h2 class="weather-title">Today's Weather</h2>
+                <img id="current-weather-img" src="" alt="Weather Image">
+                <div>
+                    <p id="current-weather-description"></p>
+                    <p id="current-temperature"></p>
+                    <p id="current-humidity"></p>
+                    <p id="current-wind"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weather-summaries">
+        <div class="weather-summary" id="three-hour-forecast">
+            <h2 class="weather-title">3-hour Forecast</h2>
+            <!-- 3-hour forecast segments will be inserted here by JavaScript -->
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='JS/dashboard.js') }}"></script>
+</body>
+
+</html>
