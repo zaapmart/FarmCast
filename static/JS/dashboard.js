@@ -18,60 +18,62 @@ document.addEventListener('DOMContentLoaded', function() {
     const addFarmButton = document.getElementById('add-farm-button');
     const addFarmForm = document.getElementById('add-farm-form');
     const farmDetailsForm = document.getElementById('farm-details-form');
-    const farmList = document.getElementById('farm-list');
 
-    addFarmButton.addEventListener('click', () => {
-        addFarmForm.style.display = 'block';
-    });
-
-    farmDetailsForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        console.log("Form submitted");
-
-        const farmName = document.getElementById('farm-name').value;
-        const farmLocation = document.getElementById('farm-location').value;
-        const farmCoordinates = document.getElementById('farm-coordinates').value;
-        const cropName = document.getElementById('crop-name').value;
-        const cropSpecies = document.getElementById('crop-species').value;
-        const plantingSeason = document.getElementById('planting-season').value;
-        const expectedHarvest = document.getElementById('expected-harvest').value;
-
-        const newFarm = {
-            name: farmName,
-            location: farmLocation,
-            coordinates: farmCoordinates,
-            crop_name: cropName,
-            crop_species: cropSpecies,
-            planting_season: plantingSeason,
-            expected_harvest: expectedHarvest
-        };
-
-        console.log("New farm data:", newFarm);
-
-        fetch('/farms', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newFarm)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                fetchProfileData();
-                fetchCropInfo();  // Refresh crop info section
-                addFarmForm.style.display = 'none';
-                alert('Farm added successfully');
-            } else {
-                console.error('Error adding farm:', data);
-                alert('Error adding farm');
-            }
-        })
-        .catch(error => {
-            console.error('Error adding farm:', error);
-            alert('Error adding farm');
+    if (addFarmButton) {
+        addFarmButton.addEventListener('click', () => {
+            addFarmForm.style.display = 'block';
         });
-    });
+    }
+
+    if (farmDetailsForm) {
+        farmDetailsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const farmName = document.getElementById('farm-name').value;
+            const farmLocation = document.getElementById('farm-location').value;
+            const farmCoordinates = document.getElementById('farm-coordinates').value;
+            const cropName = document.getElementById('crop-name').value;
+            const cropSpecies = document.getElementById('crop-species').value;
+            const plantingSeason = document.getElementById('planting-season').value;
+            const expectedHarvest = document.getElementById('expected-harvest').value;
+            const cropNotes = document.getElementById('crop-notes').value;
+
+            const newFarm = {
+                name: farmName,
+                location: farmLocation,
+                coordinates: farmCoordinates,
+                crop_name: cropName,
+                crop_species: cropSpecies,
+                planting_season: plantingSeason,
+                expected_harvest: expectedHarvest,
+                notes: cropNotes
+            };
+
+            fetch('/farms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newFarm)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    fetchProfileData();
+                    fetchCropInfo();  // Refresh crop info section
+                    addFarmForm.style.display = 'none';
+                    alert('Farm added successfully');
+                } else {
+                    console.error('Error adding farm:', data);
+                    alert('Error adding farm');
+                }
+            })
+            .catch(error => {
+                console.error('Error adding farm:', error);
+                alert('Error adding farm');
+            });
+        });
+    }
 
     function fetchProfileData() {
         fetch('/profile')
@@ -90,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         `).join('')}
                     </ul>
                 `;
-                console.log('Profile data fetched:', data);
             })
             .catch(error => console.error('Error fetching profile data:', error));
     }
@@ -154,35 +155,96 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/activities')
             .then(response => response.json())
             .then(data => {
-                document.getElementById('activity-list').innerHTML = data.map(activity => `
-                    <li>${activity.name} - ${activity.date} - ${activity.weather_condition}</li>
-                `).join('');
+                const activitiesList = document.getElementById('activities-list');
+                if (activitiesList) {
+                    activitiesList.innerHTML = data.map(activity => `
+                        <li>${activity.name} - ${activity.date_added} - ${activity.ideal_weather} - ${activity.resources_needed}</li>
+                    `).join('');
+                } else {
+                    console.error('Error: activitiesList element is null');
+                }
             })
             .catch(error => console.error('Error fetching activities:', error));
     }
 
     function fetchTodoList() {
-        fetch('/todo_list')
+        fetch('/activities')
             .then(response => response.json())
             .then(data => {
-                document.getElementById('todo-items').innerHTML = data.map(item => `
-                    <li>${item.name} - ${item.deadline}</li>
-                `).join('');
+                const todoList = document.getElementById('todo-list');
+                if (todoList) {
+                    todoList.innerHTML = ''; // Clear any existing items
+
+                    data.forEach(activity => {
+                        const today = new Date().toLocaleDateString();
+                        const activityDate = new Date(activity.date).toLocaleDateString();
+                        const weatherCondition = activity.weather_condition; // Example field, adjust as needed
+
+                        // Check if the activity is for today and if the weather condition is suitable
+                        if (activityDate === today && weatherCondition === 'Suitable') {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = `${activity.name} - ${activity.date} - ${activity.weather_condition}`;
+                            todoList.appendChild(listItem);
+                        }
+                    });
+                } else {
+                    console.error('Error: todoList element is null');
+                }
             })
             .catch(error => console.error('Error fetching to-do list:', error));
+    }
+
+    function sortTodoList() {
+        const sortBy = document.getElementById('sort-by').value;
+        const todoList = document.getElementById('todo-list');
+        const items = Array.from(todoList.getElementsByTagName('li'));
+
+        items.sort((a, b) => {
+            const textA = a.textContent.toUpperCase();
+            const textB = b.textContent.toUpperCase();
+
+            if (sortBy === 'undone') {
+                // Example sorting logic for 'undone' items
+                return textA.localeCompare(textB);
+            } else if (sortBy === 'deadline') {
+                // Example sorting logic for 'deadline'
+                const dateA = new Date(textA.split(' - ')[1]);
+                const dateB = new Date(textB.split(' - ')[1]);
+                return dateA - dateB;
+            } else if (sortBy === 'date') {
+                // Example sorting logic for 'date'
+                const dateA = new Date(textA.split(' - ')[1]);
+                const dateB = new Date(textB.split(' - ')[1]);
+                return dateA - date
+                return dateA - dateB;
+            }
+        });
+
+        // Clear and re-append sorted items
+        todoList.innerHTML = '';
+        items.forEach(item => todoList.appendChild(item));
     }
 
     function fetchCropInfo() {
         fetch('/crop_info')
             .then(response => response.json())
             .then(data => {
-                document.querySelector('.crop-info-content').innerHTML = `
-                    <p><strong>Crop Name:</strong> ${data.name}</p>
-                    <p><strong>Variety:</strong> ${data.variety}</p>
-                    <p><strong>Planting Season:</strong> ${data.planting_season}</p>
-                    <p><strong>Expected Harvest:</strong> ${data.expected_harvest}</p>
-                    <p><strong>Notes:</strong> ${data.notes}</p>
-                `;
+                const cropInfoContent = document.querySelector('.crop-info-content');
+                if (cropInfoContent) {
+                    if (data.error) {
+                        cropInfoContent.innerHTML = `<p>${data.error}</p>`;
+                    } else {
+                        cropInfoContent.innerHTML = `
+                            <p><strong>Crop Name:</strong> ${data.name}</p>
+                            <p><strong>Species:</strong> ${data.species}</p>
+                            <p><strong>Planting Season:</strong> ${data.planting_season}</p>
+                            <p><strong>Expected Harvest:</strong> ${data.expected_harvest}</p>
+                            <p><strong>Notes:</strong> ${data.notes}</p>
+                        `;
+                    }
+                } else {
+                    console.error('Error: crop-info-content element is null');
+                }
             })
             .catch(error => console.error('Error fetching crop info:', error));
     }

@@ -5,18 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FarmCast Dashboard</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/dashboard.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.1.0/daterangepicker.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.1.0/daterangepicker.min.js"></script>
 </head>
 
 <body>
     <div class="header">
         <div class="logo-container">
-            <img src="{{ url_for('static', filename='images/farmlogo.png') }}" alt="FarmCast Logo" class="logo">
+            <a href="{{ url_for('dashboard') }}"><img src="{{ url_for('static', filename='images/farmlogo.png') }}"
+                    alt="FarmCast Logo" class="logo"></a>
             <h3 class="header-title">FarmCast</h3>
         </div>
         <nav class="nav-menu">
-            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('dashboard') }}">Home</a>
             <div class="dropdown">
                 <button class="dropbtn">Activities</button>
                 <div class="dropdown-content">
@@ -38,7 +48,6 @@
                 <button id="add-farm-button">Add Farm</button>
             </div>
 
-            <!-- Add Farm Form -->
             <div id="add-farm-form" style="display: none;">
                 <h2>Add New Farm</h2>
                 <form id="farm-details-form">
@@ -54,8 +63,10 @@
                     <input type="text" id="crop-species" name="crop-species" required><br>
                     <label for="planting-season">Planting Season:</label>
                     <input type="text" id="planting-season" name="planting-season" required><br>
-                    <label for="expected-harvest">Expected Harvest Date:</label>
-                    <input type="date" id="expected-harvest" name="expected-harvest" required><br>
+                    <label for="expected-harvest">Expected Harvest:</label>
+                    <input type="text" id="expected-harvest" name="expected-harvest" required><br>
+                    <label for="crop-notes">Crop Notes:</label>
+                    <textarea id="crop-notes" name="crop-notes"></textarea><br>
                     <button type="submit" class="save-farm">Save Farm</button>
                 </form>
             </div>
@@ -64,7 +75,7 @@
         <div class="main-content">
             <div class="activities">
                 <h2>Farm Activities</h2>
-                <ul id="activity-list">
+                <ul id="activities-list">
                     <!-- Activities will be listed here -->
                 </ul>
             </div>
@@ -79,7 +90,7 @@
                         <option value="date">Date</option>
                     </select>
                 </div>
-                <ul id="todo-items">
+                <ul id="todo-list">
                     <!-- To-do items will be listed here -->
                 </ul>
             </div>
@@ -111,6 +122,7 @@
         </div>
     </div>
     <script src="{{ url_for('static', filename='JS/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='JS/activities.js') }}"></script>
 </body>
 
 </html>

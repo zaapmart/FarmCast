@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FarmCast Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/kufre.css') }}">
-    <!-- Link to your CSS file for styling -->
 </head>
 
 <body>
@@ -24,9 +23,10 @@
             </div>
             <button type="submit" class="login-button">Login</button>
         </form>
+        <p id="login-message" style="display: none;">Login successful! Redirecting...</p>
         <p>Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a></p>
     </div>
-    <script src="{{ url_for('static', filename='JS/auth.js') }}"></script> <!-- Link to your JavaScript file -->
+    <script src="{{ url_for('static', filename='JS/login.js') }}"></script>
 </body>
 
 </html>

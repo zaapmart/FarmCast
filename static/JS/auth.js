@@ -1,28 +1,36 @@
-// auth.js
-
-// Dummy user database (replace with real database in a production environment)
-const users = [
-    { email: 'user1@example.com', password: 'password1' },
-    { email: 'user2@example.com', password: 'password2' }
-    // Add more users as needed
-];
-
-// Function to handle form submission
-document.getElementById('login-form').addEventListener('submit', function(event) {
+// Function to login a user
+function loginUser(event) {
     event.preventDefault(); // Prevent form submission
 
-    // Get user input
+    // Get form data
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    // Find user by email
-    const user = users.find(user => user.email === email);
+    // Create a user login object
+    const userLogin = {
+        email,
+        password
+    };
 
-    // Check if user exists and password matches
-    if (user && user.password === password) {
-        // Redirect to dashboard or homepage (replace 'dashboard.html' with actual URL)
-        window.location.href = 'dashboard.html';
-    } else {
-        alert('Invalid email or password. Please try again.');
-    }
-});
+    // Send login data to the server
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userLogin)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            window.location.href = '/dashboard';
+        } else {
+            console.error('Login failed:', data.message);
+            alert('Invalid email or password. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error logging in user:', error);
+        alert('Error logging in user');
+    });
+}

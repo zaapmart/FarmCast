@@ -34,21 +34,22 @@
         <div class="main-content">
             <h2>Add Activity</h2>
             <form id="activity-form" class="activity-form">
-                <label for="activity-name">Activity Name:</label>
-                <input type="text" id="activity-name" name="activity-name" required><br>
+                <label for="activity-name" class="activity-content">Activity Name:</label>
+                <input type="text" id="activity-name" class="activity-content" name="activity-name" required><br>
 
-                <label for="activity-date">Date:</label>
-                <input type="date" id="activity-date" name="activity-date" required><br>
+                <label for="activity-date" class="activity-content">Date:</label>
+                <input type="date" id="activity-date" class="activity-content" name="activity-date" required><br>
 
-                <label for="weather-condition">Ideal Weather Condition:</label>
-                <select id="weather-condition" name="weather-condition" required>
+                <label for="weather-condition" class="activity-content">Ideal Weather Condition:</label>
+                <select id="weather-condition" class="activity-content" name="weather-condition" required>
                     <option value="sunny">Sunny</option>
                     <option value="rainy">Rainy</option>
                     <option value="cloudy">Cloudy</option>
                 </select><br>
 
-                <label for="resources-needed">Resources Needed:</label>
-                <textarea id="resources-needed" name="resources-needed" required></textarea>
+                <label for="resources-needed" class="activity-content">Resources Needed:</label>
+                <textarea id="resources-needed" class="activity-content" name="resources-needed"
+                    required></textarea><br>
 
                 <button type="submit">Add Activity</button>
             </form>

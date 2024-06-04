@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Activities</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='view-activities.css') }}">
+</head>
+
+<body>
+    <h1>Activities</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Activity Name</th>
+                <th>Date Added</th>
+                <th>Status</th>
+                <th>Weather Condition</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in activities %}
+            <tr>
+                <td>{{ activity.name }}</td>
+                <td>{{ activity.date_added }}</td>
+                <td>{{ activity.status }}</td>
+                <td>{{ activity.weather }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+
+</html>

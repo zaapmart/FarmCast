@@ -8,12 +8,6 @@ function registerUser(event) {
     const name = document.getElementById('name').value;
     const phone = document.getElementById('phone').value;
 
-    // Log form data for debugging
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Name:', name);
-    console.log('Phone:', phone);
-
     // Create a new user object
     const newUser = {
         email,
@@ -22,9 +16,30 @@ function registerUser(event) {
         phone
     };
 
-    // Log new user object for debugging
-    console.log('New user:', newUser);
+    console.log("Registration Data:", newUser); // Log the data to the console
 
-    // Display registration message
-    document.getElementById('registration-message').style.display = 'block';
+    // Send user data to the server
+    fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            document.getElementById('registration-message').style.display = 'block';
+        } else {
+            console.error('Error registering user:', data);
+            alert('Error registering user');
+        }
+    })
+    .catch(error => {
+        console.error('Error registering user:', error);
+        alert('Error registering user');
+    });
 }
+
+// Add event listener to the form submission event
+document.getElementById('registration-form').addEventListener('submit', registerUser);
