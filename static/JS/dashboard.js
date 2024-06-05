@@ -101,26 +101,23 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                const weather = data.weather[0].main.toLowerCase();
+                console.log('Current Weather Data:', data); // Log weather data for debugging
+    
                 document.getElementById('current-weather-description').textContent = data.weather[0].description;
                 document.getElementById('current-temperature').textContent = `Temperature: ${data.main.temp}°C`;
                 document.getElementById('current-humidity').textContent = `Humidity: ${data.main.humidity}%`;
                 document.getElementById('current-wind').textContent = `Wind: ${data.wind.speed} km/h`;
-
+    
+                // Use the icon provided by the OpenWeather API
+                const weatherIconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
                 const currentWeatherImg = document.getElementById('current-weather-img');
-                if (weather.includes('sun')) {
-                    currentWeatherImg.src = 'images/sunny.png';
-                    currentWeatherImg.alt = 'Sunny';
-                } else if (weather.includes('rain')) {
-                    currentWeatherImg.src = 'images/rainy.png';
-                    currentWeatherImg.alt = 'Rainy';
-                } else {
-                    currentWeatherImg.src = 'images/cloudy.png';
-                    currentWeatherImg.alt = 'Cloudy';
-                }
+                currentWeatherImg.src = weatherIconUrl;
+                currentWeatherImg.alt = data.weather[0].description;
             })
             .catch(error => console.error('Error fetching current weather data:', error));
     }
+    
+    
 
     function fetchThreeHourForecast(apiKey, lat, lon) {
         const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
