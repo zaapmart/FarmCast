@@ -19,6 +19,10 @@ header .container {
     align-items: center;
 }
 
+.header-content{
+    margin-right: 10px;
+}
+
 header .logo {
     height: 50px;
 }
@@ -77,7 +81,7 @@ header nav ul li a {
 }
 
 .about p {
-    text-align: center;
+    text-align: justify;
     max-width: 800px;
     margin: 0 auto;
 }
