@@ -31,7 +31,8 @@ def get_current_weather():
 
 @app.route('/')
 def index():
-    return render_template('dashboard.html')
+    weather = get_current_weather()
+    return render_template('dashboard.html', activities=data_store['activities'], todo_list=data_store['todo_list'], weather=weather)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -59,7 +60,8 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    weather = get_current_weather()
+    return render_template('dashboard.html', activities=data_store['activities'], todo_list=data_store['todo_list'], weather=weather)
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -98,7 +100,20 @@ def add_activity():
     if request.method == 'POST':
         data = request.json
         data_store['activities'].append(data)
+
+        # Convert activity data into todo list item
+        todo_item = {
+            "name": data['name'],
+            "date": data['date_added'],  # Assuming 'date_added' is the date of the activity
+            "weather_condition": data['ideal_weather']  # Assuming 'ideal_weather' is relevant for todo list
+        }
+
+        # Append todo item to todo list
+        data_store['todo_list'].append(todo_item)
+
         print(data_store['activities'])  # Debug print statement
+        print(data_store['todo_list'])  # Debug print statement
+
         return jsonify({"status": "success"})
     return render_template('add-activity.html')
 
@@ -108,6 +123,10 @@ def todo_list():
         data = request.json
         data_store['todo_list'].append(data)
         return jsonify({"status": "success"})
+    return jsonify(data_store['todo_list'])
+
+@app.route('/fetch_todo_list', methods=['GET'])
+def fetch_todo_list():
     return jsonify(data_store['todo_list'])
 
 @app.route('/crop_info', methods=['GET'])

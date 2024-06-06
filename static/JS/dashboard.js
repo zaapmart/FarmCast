@@ -165,31 +165,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function fetchTodoList() {
-        fetch('/activities')
+        fetch('/todo_list')
             .then(response => response.json())
             .then(data => {
                 const todoList = document.getElementById('todo-list');
                 if (todoList) {
                     todoList.innerHTML = ''; // Clear any existing items
-
-                    data.forEach(activity => {
-                        const today = new Date().toLocaleDateString();
-                        const activityDate = new Date(activity.date).toLocaleDateString();
-                        const weatherCondition = activity.weather_condition; // Example field, adjust as needed
-
-                        // Check if the activity is for today and if the weather condition is suitable
-                        if (activityDate === today && weatherCondition === 'Suitable') {
-                            const listItem = document.createElement('li');
-                            listItem.textContent = `${activity.name} - ${activity.date} - ${activity.weather_condition}`;
-                            todoList.appendChild(listItem);
-                        }
+    
+                    data.forEach(todo => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${todo.name} - ${todo.date} - ${todo.weather_condition}`;
+                        todoList.appendChild(listItem);
                     });
                 } else {
                     console.error('Error: todoList element is null');
                 }
             })
             .catch(error => console.error('Error fetching to-do list:', error));
-    }
+    }      
+    
+    
 
     function sortTodoList() {
         const sortBy = document.getElementById('sort-by').value;
