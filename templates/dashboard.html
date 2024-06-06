@@ -35,7 +35,7 @@
                 </div>
             </div>
             <a href="#">Settings</a>
-            <a href="#">Logout</a>
+            <a href="{{ url_for('logout') }}" id="logout-button">Logout</a>
         </nav>
     </div>
     <div class="container">
@@ -123,6 +123,7 @@
     </div>
     <script src="{{ url_for('static', filename='JS/dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='JS/activities.js') }}"></script>
+    <script src="{{ url_for('static', filename='logout.js') }}"></script>
 </body>
 
 </html>

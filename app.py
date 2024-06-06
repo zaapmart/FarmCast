@@ -1,7 +1,13 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask_session import Session
 import requests
 
 app = Flask(__name__)
+
+# Configure session
+app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
 
 # Initialize empty data storage (in-memory)
 data_store = {
@@ -31,6 +37,8 @@ def get_current_weather():
 
 @app.route('/')
 def index():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     weather = get_current_weather()
     return render_template('dashboard.html', activities=data_store['activities'], todo_list=data_store['todo_list'], weather=weather)
 
@@ -52,14 +60,22 @@ def login():
         print(f"Login data received: {data}")
         for user in data_store['users']:
             if user['email'] == data['email'] and user['password'] == data['password']:
+                session['user'] = user['email']
                 print("Login successful")
                 return jsonify({"status": "success"})
         print("Invalid email or password")
         return jsonify({"status": "fail", "message": "Invalid email or password"}), 401
     return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('login'))
+
 @app.route('/dashboard')
 def dashboard():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     weather = get_current_weather()
     return render_template('dashboard.html', activities=data_store['activities'], todo_list=data_store['todo_list'], weather=weather)
 
