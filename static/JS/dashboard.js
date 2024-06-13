@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     const apiKey = 'f3c17a1d089141d4d04ca6d5ac44957e';
-    const lat = 6.7133054;
+    const lat = 6.7133054; // declare constants to hold longitude and latitude
     const lon = 8.7001492;
 
+    // Fetch current weather and 3-hour forecast
     fetchCurrentWeather(apiKey, lat, lon);
     fetchThreeHourForecast(apiKey, lat, lon);
 
@@ -25,10 +26,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Handle form submission for adding new farms
     if (farmDetailsForm) {
         farmDetailsForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
+            // fetch inputs from the form
             const farmName = document.getElementById('farm-name').value;
             const farmLocation = document.getElementById('farm-location').value;
             const farmCoordinates = document.getElementById('farm-coordinates').value;
@@ -38,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const expectedHarvest = document.getElementById('expected-harvest').value;
             const cropNotes = document.getElementById('crop-notes').value;
 
+            // create a new farm object
             const newFarm = {
                 name: farmName,
                 location: farmLocation,
@@ -49,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 notes: cropNotes
             };
 
+            // send new farm data to server
             fetch('/farms', {
                 method: 'POST',
                 headers: {
@@ -75,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // fetch profile data
     function fetchProfileData() {
         fetch('/profile')
             .then(response => response.json())
@@ -96,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching profile data:', error));
     }
 
+    // fetch and display current weather data
     function fetchCurrentWeather(apiKey, lat, lon) {
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
         fetch(url)
@@ -148,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching 3-hour forecast data:', error));
     }
 
+    // fetch farm activities
     function fetchActivities() {
         fetch('/activities')
             .then(response => response.json())
@@ -164,6 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching activities:', error));
     }
 
+    // fetch Todo list
     function fetchTodoList() {
         fetch('/todo_list')
             .then(response => response.json())
