@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     
-
+    // fetch and display 3-hour weather data
     function fetchThreeHourForecast(apiKey, lat, lon) {
         const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
         fetch(url)
