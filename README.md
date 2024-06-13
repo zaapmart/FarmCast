@@ -1,4 +1,3 @@
-FarmCast
 FarmCast is an innovative web application designed to help farmers manage their agricultural activities more efficiently. Leveraging real-time weather data, the application provides insights and reminders for key farming tasks, aiming to enhance productivity and reduce losses due to adverse weather conditions.
 
 FarmCast was conceived in response to the challenges faced by farmers in managing time-sensitive agricultural activities. The idea emerged after personal experiences with rice farming, where unanticipated weather changes led to significant losses. FarmCast aims to provide farmers with a tool to better plan and execute their farming tasks, thereby improving efficiency and reducing risks.
